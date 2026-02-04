@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube to Content Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .content-type {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .content-type label {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: normal;
+        }
+
+        .content-type label:hover {
+            background: #e8e8e8;
+        }
+
+        .content-type input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .content-type input[type="radio"]:checked + span {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .output.show {
+            display: block;
+        }
+
+        .output-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .output-text {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background: #218838;
+        }
+
+        .copy-btn.copied {
+            background: #6c757d;
+        }
+
+        .steps {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: #856404;
+        }
+
+        .steps h3 {
+            margin-bottom: 10px;
+        }
+
+        .steps ol {
+            padding-left: 20px;
+        }
+
+        .steps li {
+            margin-bottom: 5px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Content Generator</h1>
+        <p class="subtitle">YouTubeリンクからコンテンツを生成</p>
+
+        <label for="youtube-url">YouTubeリンク</label>
+        <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+
+        <label>生成したいコンテンツ</label>
+        <div class="content-type">
+            <label>
+                <input type="radio" name="content" value="tweet" checked>
+                <span>ツイート</span>
+            </label>
+            <label>
+                <input type="radio" name="content" value="note">
+                <span>note記事</span>
+            </label>
+            <label>
+                <input type="radio" name="content" value="summary">
+                <span>要約</span>
+            </label>
+            <label>
+                <input type="radio" name="content" value="blog">
+                <span>ブログ</span>
+            </label>
+        </div>
+
+        <button class="btn" onclick="generatePrompt()">プロンプトを生成</button>
+
+        <div class="output" id="output">
+            <p class="output-label">以下のプロンプトをClaudeにコピペしてください：</p>
+            <div class="output-text" id="output-text"></div>
+            <button class="copy-btn" onclick="copyToClipboard()">クリップボードにコピー</button>
+        </div>
+
+        <div class="steps">
+            <h3>使い方</h3>
+            <ol>
+                <li>YouTubeリンクを貼り付け</li>
+                <li>生成したいコンテンツを選択</li>
+                <li>「プロンプトを生成」をタップ</li>
+                <li>コピーしてClaudeに貼り付け</li>
+            </ol>
+        </div>
+
+        <a href="index.html" class="back-link">← 自己紹介に戻る</a>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const url = document.getElementById('youtube-url').value;
+            const contentType = document.querySelector('input[name="content"]:checked').value;
+
+            if (!url) {
+                alert('YouTubeリンクを入力してください');
+                return;
+            }
+
+            const prompts = {
+                tweet: `以下のYouTube動画の内容を見て、魅力的なツイート（280文字以内）を3パターン作成してください。ハッシュタグも含めてください。
+
+動画URL: ${url}
+
+※動画の内容を確認して、視聴者が興味を持つようなツイートをお願いします。`,
+
+                note: `以下のYouTube動画の内容をもとに、note記事を作成してください。
+
+動画URL: ${url}
+
+以下の構成でお願いします：
+- キャッチーなタイトル
+- 導入文（動画を見たきっかけ）
+- 動画の要点（3〜5つ）
+- 自分の感想・学び
+- まとめ
+
+読みやすく、親しみやすい文体でお願いします。`,
+
+                summary: `以下のYouTube動画の内容を要約してください。
+
+動画URL: ${url}
+
+以下の形式でお願いします：
+- 動画のタイトルと概要（2〜3行）
+- 主要なポイント（箇条書きで5つ程度）
+- 結論・メッセージ
+
+簡潔で分かりやすくまとめてください。`,
+
+                blog: `以下のYouTube動画の内容をもとに、ブログ記事を作成してください。
+
+動画URL: ${url}
+
+以下の構成でお願いします：
+- SEOを意識したタイトル
+- 導入（この動画を紹介する理由）
+- 動画の内容詳細
+- 重要なポイントの解説
+- まとめと感想
+
+2000文字程度でお願いします。`
+            };
+
+            document.getElementById('output-text').textContent = prompts[contentType];
+            document.getElementById('output').classList.add('show');
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('output-text').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'コピーしました！';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'クリップボードにコピー';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

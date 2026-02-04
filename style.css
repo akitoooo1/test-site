@@ -107,6 +107,28 @@ h2 {
     font-size: 1.5rem;
 }
 
+.tool-link {
+    padding: 20px 30px;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+.tool-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tool-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
 footer {
     background: #f8f9fa;
     padding: 20px 30px;
