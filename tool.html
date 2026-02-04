@@ -48,7 +48,13 @@
             font-weight: bold;
         }
 
-        input[type="text"] {
+        .label-hint {
+            font-weight: normal;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        input[type="text"], textarea {
             width: 100%;
             padding: 15px;
             border: 2px solid #e0e0e0;
@@ -56,9 +62,15 @@
             font-size: 1rem;
             margin-bottom: 20px;
             transition: border-color 0.3s;
+            font-family: inherit;
         }
 
-        input[type="text"]:focus {
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -169,10 +181,10 @@
         .steps {
             margin-top: 20px;
             padding: 15px;
-            background: #fff3cd;
+            background: #e8f4fd;
             border-radius: 10px;
             font-size: 0.85rem;
-            color: #856404;
+            color: #0c5460;
         }
 
         .steps h3 {
@@ -198,11 +210,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>YouTube Content Generator</h1>
-        <p class="subtitle">YouTubeリンクからコンテンツを生成</p>
+        <h1>Content Generator</h1>
+        <p class="subtitle">動画の内容からコンテンツを生成</p>
 
-        <label for="youtube-url">YouTubeリンク</label>
-        <input type="text" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+        <label for="video-title">動画のタイトル</label>
+        <input type="text" id="video-title" placeholder="例：初心者向けプログラミング入門">
+
+        <label for="video-content">
+            動画の内容
+            <span class="label-hint">（要点やポイントを箇条書きで）</span>
+        </label>
+        <textarea id="video-content" placeholder="例：
+・プログラミングとは何か
+・最初に学ぶべき言語
+・おすすめの学習方法
+・挫折しないコツ"></textarea>
 
         <label>生成したいコンテンツ</label>
         <div class="content-type">
@@ -235,7 +257,8 @@
         <div class="steps">
             <h3>使い方</h3>
             <ol>
-                <li>YouTubeリンクを貼り付け</li>
+                <li>動画のタイトルを入力</li>
+                <li>動画の内容・ポイントを入力</li>
                 <li>生成したいコンテンツを選択</li>
                 <li>「プロンプトを生成」をタップ</li>
                 <li>コピーしてClaudeに貼り付け</li>
@@ -247,48 +270,65 @@
 
     <script>
         function generatePrompt() {
-            const url = document.getElementById('youtube-url').value;
+            const title = document.getElementById('video-title').value;
+            const content = document.getElementById('video-content').value;
             const contentType = document.querySelector('input[name="content"]:checked').value;
 
-            if (!url) {
-                alert('YouTubeリンクを入力してください');
+            if (!title || !content) {
+                alert('タイトルと内容を入力してください');
                 return;
             }
 
             const prompts = {
-                tweet: `以下のYouTube動画の内容を見て、魅力的なツイート（280文字以内）を3パターン作成してください。ハッシュタグも含めてください。
+                tweet: `以下の動画の内容をもとに、魅力的なツイート（140文字以内）を3パターン作成してください。ハッシュタグも含めてください。
 
-動画URL: ${url}
+【動画タイトル】
+${title}
 
-※動画の内容を確認して、視聴者が興味を持つようなツイートをお願いします。`,
+【動画の内容】
+${content}
 
-                note: `以下のYouTube動画の内容をもとに、note記事を作成してください。
+視聴者が興味を持つような、拡散されやすいツイートをお願いします。`,
 
-動画URL: ${url}
+                note: `以下の動画の内容をもとに、note記事を作成してください。
+
+【動画タイトル】
+${title}
+
+【動画の内容】
+${content}
 
 以下の構成でお願いします：
 - キャッチーなタイトル
-- 導入文（動画を見たきっかけ）
+- 導入文（この動画を見たきっかけ）
 - 動画の要点（3〜5つ）
 - 自分の感想・学び
 - まとめ
 
 読みやすく、親しみやすい文体でお願いします。`,
 
-                summary: `以下のYouTube動画の内容を要約してください。
+                summary: `以下の動画の内容を要約してください。
 
-動画URL: ${url}
+【動画タイトル】
+${title}
+
+【動画の内容】
+${content}
 
 以下の形式でお願いします：
-- 動画のタイトルと概要（2〜3行）
+- 概要（2〜3行）
 - 主要なポイント（箇条書きで5つ程度）
 - 結論・メッセージ
 
 簡潔で分かりやすくまとめてください。`,
 
-                blog: `以下のYouTube動画の内容をもとに、ブログ記事を作成してください。
+                blog: `以下の動画の内容をもとに、ブログ記事を作成してください。
 
-動画URL: ${url}
+【動画タイトル】
+${title}
+
+【動画の内容】
+${content}
 
 以下の構成でお願いします：
 - SEOを意識したタイトル
