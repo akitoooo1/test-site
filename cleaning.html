@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おそうじ隊モリオカ | 盛岡のハウスクリーニング</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --accent: #10b981;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: var(--dark);
+            line-height: 1.8;
+            background: var(--light);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: 30px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            color: var(--primary);
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section */
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* About */
+        .about {
+            background: var(--white);
+        }
+
+        .about-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .about-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .about-text {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 2;
+        }
+
+        .about-highlight {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 3px 12px;
+            border-radius: 5px;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+        /* Features */
+        .features {
+            background: var(--light);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .feature-item {
+            background: var(--white);
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .feature-desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Services */
+        .services {
+            background: var(--white);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .service-item {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .service-name {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .service-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .service-note {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        /* Price Table */
+        .price {
+            background: var(--light);
+        }
+
+        .price-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .price-table th,
+        .price-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .price-table th {
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .price-table td {
+            font-size: 0.9rem;
+        }
+
+        .price-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .price-table td:nth-child(3) {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Area */
+        .area {
+            background: var(--white);
+        }
+
+        .area-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .area-tag {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .area-note {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Info */
+        .info {
+            background: var(--dark);
+            color: var(--white);
+        }
+
+        .info .section-title {
+            color: var(--white);
+        }
+
+        .info .section-title::after {
+            background: var(--accent);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .info-value a {
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        /* FAQ */
+        .faq {
+            background: var(--light);
+        }
+
+        .faq-item {
+            background: var(--white);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .faq-q {
+            background: var(--primary);
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .faq-answer {
+            padding: 0 25px 20px 70px;
+            color: var(--gray);
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .cta h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .cta-btn.phone {
+            background: var(--white);
+            color: var(--accent);
+        }
+
+        .cta-btn.instagram {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: var(--white);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--gray);
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .price-table {
+                font-size: 0.8rem;
+            }
+
+            .price-table th,
+            .price-table td {
+                padding: 10px 8px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">盛岡のハウスクリーニング</span>
+            <h1>おそうじ隊モリオカ</h1>
+            <p class="hero-tagline">キレイな空間で、笑顔あふれる毎日を</p>
+            <a href="tel:09043102470" class="hero-cta">
+                <span>無料相談する</span>
+                <span>→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about">
+        <div class="container">
+            <h2 class="section-title">私たちについて</h2>
+            <div class="about-card">
+                <div class="about-icon">✨</div>
+                <p class="about-text">
+                    盛岡を拠点にハウスクリーニング業を営んでおります。<br><br>
+                    キレイな空間は気持ちが明るくなって自然に笑みがこぼれてくると感じたからです。
+                    そういった空間や環境を一つでも多く生み出したいという思いを抱きながら、
+                    ハウスクリーニング業に従事しております。<br><br>
+                    『笑う門には福来る』をハウスクリーニングという立ち位置からサポートできれば仕事冥利に尽きます。
+                </p>
+                <span class="about-highlight">技術は一流、サービスも一流、価格は三流</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">選ばれる理由</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">👤</div>
+                    <div class="feature-title">責任施工</div>
+                    <div class="feature-desc">外注なし。全て私が責任を持って対応します</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-title">安心保証</div>
+                    <div class="feature-desc">賠償保険加入済み。万が一も無償対応</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-title">明朗会計</div>
+                    <div class="feature-desc">追加料金なし。事前見積もり通りの金額</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">サービスメニュー</h2>
+            <div class="service-grid">
+                <div class="service-item">
+                    <div class="service-icon">❄️</div>
+                    <div class="service-name">エアコンクリーニング</div>
+                    <div class="service-price">¥9,000〜</div>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">🌀</div>
+                    <div class="service-name">洗濯機クリーニング</div>
+                    <div class="service-price">¥16,000〜</div>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">🛁</div>
+                    <div class="service-name">浴室クリーニング</div>
+                    <div class="service-price">¥15,000〜</div>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">🍳</div>
+                    <div class="service-name">レンジフード</div>
+                    <div class="service-price">¥14,000〜</div>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">🚿</div>
+                    <div class="service-name">キッチン</div>
+                    <div class="service-price">お問合せ</div>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">🚽</div>
+                    <div class="service-name">トイレクリーニング</div>
+                    <div class="service-price">¥9,000〜</div>
+                </div>
+            </div>
+            <p class="service-note">※料金は全て税込です。詳細はお問い合わせください。</p>
+        </div>
+    </section>
+
+    <!-- Price Table -->
+    <section class="price">
+        <div class="container">
+            <h2 class="section-title">料金表</h2>
+            <div class="price-table-wrapper">
+                <table class="price-table">
+                    <thead>
+                        <tr>
+                            <th>サービス</th>
+                            <th>タイプ</th>
+                            <th>料金（税込）</th>
+                            <th>作業時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="4">エアコン</td>
+                            <td>壁掛け（お掃除機能無し）</td>
+                            <td>¥9,000</td>
+                            <td>1時間</td>
+                        </tr>
+                        <tr>
+                            <td>壁掛け（お掃除機能付き）</td>
+                            <td>¥15,000</td>
+                            <td>1.5〜2時間</td>
+                        </tr>
+                        <tr>
+                            <td>天井カセット型 4方向</td>
+                            <td>¥24,000</td>
+                            <td>2時間</td>
+                        </tr>
+                        <tr>
+                            <td>室外機</td>
+                            <td>¥2,000</td>
+                            <td>上記に含む</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">洗濯機</td>
+                            <td>タテ型（乾燥機能無し）</td>
+                            <td>¥16,000</td>
+                            <td>2時間</td>
+                        </tr>
+                        <tr>
+                            <td>タテ型（乾燥機能付き）</td>
+                            <td>¥28,000</td>
+                            <td>3〜4時間</td>
+                        </tr>
+                        <tr>
+                            <td>ドラム式</td>
+                            <td>¥29,000</td>
+                            <td>4時間</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">レンジフード</td>
+                            <td>¥14,000</td>
+                            <td>1.5〜2時間</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">浴室</td>
+                            <td>¥15,000</td>
+                            <td>2.5時間</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">トイレ</td>
+                            <td>¥9,000</td>
+                            <td>1.5時間</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Area -->
+    <section class="area">
+        <div class="container">
+            <h2 class="section-title">対応エリア</h2>
+            <div class="area-list">
+                <span class="area-tag">盛岡市</span>
+                <span class="area-tag">滝沢市</span>
+                <span class="area-tag">矢巾町</span>
+                <span class="area-tag">紫波町</span>
+            </div>
+            <p class="area-note">※エリア外でも対応可能な場合がございます。お気軽にご相談ください。</p>
+        </div>
+    </section>
+
+    <!-- Info -->
+    <section class="info">
+        <div class="container">
+            <h2 class="section-title">基本情報</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-label">営業時間</div>
+                    <div class="info-value">9:00 〜 18:00</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">定休日</div>
+                    <div class="info-value">不定休</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">電話番号</div>
+                    <div class="info-value"><a href="tel:09043102470">090-4310-2470</a></div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">メール</div>
+                    <div class="info-value"><a href="mailto:morioka.kirei.5489@gmail.com">morioka.kirei.5489@gmail.com</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">よくある質問</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="faq-q">Q</span>
+                    <span>破損・故障等が発生した場合は保証されますか？</span>
+                </div>
+                <div class="faq-answer">
+                    賠償保険に加入しておりますので、弊社に原因がある場合は無償で修理対応いたします。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="faq-q">Q</span>
+                    <span>当日、追加料金が発生することはありますか？</span>
+                </div>
+                <div class="faq-answer">
+                    発生することはございません。但し、オプションメニューのお申込分は除きます。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="faq-q">Q</span>
+                    <span>作業は誰が来るのか？</span>
+                </div>
+                <div class="faq-answer">
+                    個人事業主なので、全ての作業は私が担当いたします。外注することはございませんので、ご安心ください。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span class="faq-q">Q</span>
+                    <span>作業中に買い物や子供の迎えで不在になってもいいか？</span>
+                </div>
+                <div class="faq-answer">
+                    はい、問題ございません。お気軽にお出かけください。
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>まずはお気軽にご相談ください</h2>
+        <p>営業時間外のご希望も、事前にお問合せいただければ対応いたします</p>
+        <div class="cta-buttons">
+            <a href="tel:09043102470" class="cta-btn phone">
+                <span>📞</span>
+                <span>090-4310-2470</span>
+            </a>
+            <a href="https://instagram.com/kirei5489" class="cta-btn instagram" target="_blank">
+                <span>📷</span>
+                <span>Instagram で実例を見る</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 おそうじ隊モリオカ All rights reserved.</p>
+    </footer>
+</body>
+</html>
